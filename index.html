@@ -13,7 +13,7 @@
      document.addEventListener("DOMContentLoaded", async () => {
        const ls = window.localStorage;
        console.log('woo loaded');
-       const data = JSON.parse(ls.getItem(STORAGE_KEY)) || ['http://localhost:8000/data/point.fgb'];
+       const data = JSON.parse(ls.getItem(STORAGE_KEY)) || ['http://localhost:8000/data/point.fgb', 'http://localhost:8001/australia.fgb', 'http://localhost:8001/colorado.fgb'];
        console.log(data);
 
        const list = document.getElementById('fgb-links');
