@@ -1,32 +1,9 @@
 <html>
-<head>
-</head>
-<body>
-  <div>
-    <h1>Fgb Hub</h1>
-    <h3>Recently view FGBs</h3>
-    <ul id="fgb-links">
-    </ul>
-  </div>
-    <script>
-     const STORAGE_KEY = 'fgbhub_data';
-     document.addEventListener("DOMContentLoaded", async () => {
-       const ls = window.localStorage;
-       console.log('woo loaded');
-       const data = JSON.parse(ls.getItem(STORAGE_KEY)) || ['http://localhost:8000/data/point.fgb', 'http://localhost:8001/australia.fgb', 'http://localhost:8001/colorado.fgb'];
-       console.log(data);
-
-       const list = document.getElementById('fgb-links');
-       data.forEach(url => {
-         const li = document.createElement('li');
-         const link = document.createElement('a');
-         const linkUrl = window.location.origin + '/viewer.html?url=' + encodeURIComponent(url);
-         link.href = linkUrl;
-         link.appendChild(document.createTextNode(url));
-         li.appendChild(link);
-         list.appendChild(li);
-       });
-     });
-    </script>
-</body>
+  <head>
+  </head>
+  <body>
+    <div id="app">
+    </div>
+    <script src="./build/index.js"></script>
+  </body>
 </html>

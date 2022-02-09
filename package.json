@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "build": "esbuild index.tsx viewer.tsx --bundle --outdir=build",
+    "watch": "esbuild index.tsx viewer.tsx --watch --bundle --outdir=build"
+  },
+  "devDependencies": {
+    "esbuild": "^0.14.21"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
