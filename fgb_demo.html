@@ -43,13 +43,6 @@
                 header.appendChild(formatter.render())
             }
 
-            // For the example, we fix a visible Rect representing the query
-            // bounding box in the middle of the map
-            function getBoundForRect() {
-                const widthMeters = 500000;
-                return map.getCenter().toBounds(widthMeters);
-            }
-
             // convert the rect into the format flatgeobuf expects
             function fgBoundingBox() {
                 const bounds = getBoundForRect();
@@ -63,45 +56,6 @@
 
             // track the previous results so we can remove them when adding new results
             let previousResults = L.layerGroup().addTo(map);
-            async function updateResults() {
-                // remove the old results
-                previousResults.remove();
-                const nextResults = L.layerGroup().addTo(map);
-                previousResults = nextResults;
-
-                // Use flatgeobuf JavaScript API to iterate features as geojson.
-                // Because we specify a bounding box, flatgeobuf will only fetch the relevant subset of data,
-                // rather than the entire file.
-                let iter = flatgeobuf.deserialize('/test/data/UScounties.fgb', fgBoundingBox(), handleHeaderMeta);
-                for await (let feature of iter) {
-                    const defaultStyle = { 
-                        color: 'blue', 
-                        weight: 2, 
-                        fillOpacity: 0.1,
-                    };
-
-                    L.geoJSON(feature, {
-                        style: defaultStyle,
-                    }).on({
-                        'mouseover': function(e) {
-                            const layer = e.target;
-                            layer.setStyle({
-                                color: 'blue',
-                                weight: 4,
-                                fillOpacity: 0.7,
-                            });
-                            layer.bringToFront();
-                        },
-                        'mouseout': function(e) {
-                            const layer = e.target;
-                            layer.setStyle(defaultStyle);
-                        }
-                   }).bindPopup(`<h1>${feature.properties["NAME"]} ${feature.properties["LSAD"]}, ${feature.properties["STATE"]}</h1>`)
-                   .addTo(nextResults);
-                }
-            }
-            // if the user is panning around alot, only update once per second max
-            updateResults = _.throttle(updateResults, 1000);
 
             // show a leaflet rect corresponding to our bounding box
             let rectangle = L.rectangle(getBoundForRect(), { color: "yellow", fillOpacity: 0.7, opacity: 1.0 }).addTo(map);
