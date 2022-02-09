@@ -7,6 +7,8 @@
     "esbuild": "^0.14.21"
   },
   "dependencies": {
+    "flatgeobuf": "^3.21.3",
+    "leaflet": "^1.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   }
