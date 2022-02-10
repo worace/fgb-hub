@@ -1,15 +1,15 @@
 {
-  "scripts": {
-    "build": "esbuild index.tsx viewer.tsx --bundle --outdir=build",
-    "watch": "esbuild index.tsx viewer.tsx --watch --bundle --outdir=build"
-  },
-  "devDependencies": {
-    "esbuild": "^0.14.21"
-  },
-  "dependencies": {
-    "flatgeobuf": "^3.21.3",
-    "leaflet": "^1.7.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
-  }
+    "scripts": {
+        "build": "esbuild index.tsx viewer.tsx --bundle --outdir=build",
+        "watch": "esbuild index.tsx viewer.tsx --watch --bundle --outdir=build"
+    },
+    "devDependencies": {
+        "esbuild": "^0.14.21"
+    },
+    "dependencies": {
+        "flatgeobuf": "^3.21.3",
+        "mapbox-gl": "^2.7.0",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2"
+    }
 }
