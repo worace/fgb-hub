@@ -1,5 +1,6 @@
 import * as React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM, { flushSync } from "react-dom";
+import firebase, { Fgb, FireStore } from "./firebase";
 
 /* const STORAGE_KEY = 'fgbhub_data';
  * const data = JSON.parse(ls.getItem(STORAGE_KEY)) || [];
@@ -15,18 +16,25 @@ function viewerLink(url: string): string {
   return "/viewer.html?url=" + encodeURIComponent(url);
 }
 
-const urlItem = (url: string) => (
-  <li key={url}>
-    <a href={viewerLink(url)}>{url}</a>
+const urlItem = (fgb: Fgb) => (
+  <li key={fgb.url}>
+    <a href={viewerLink(fgb.url)}>{fgb.url}</a>
   </li>
 );
 
-const Index = () => (
-  <div>
-    <h1>Fgb Hub</h1>
-    <h3>View FGBs</h3>
-    <ul>{urls.map((u) => urlItem(u))}</ul>
-  </div>
-);
+const Index = (props: { fs: FireStore }) => {
+  const [list, setList] = React.useState<Fgb[]>([]);
 
-ReactDOM.render(<Index />, document.getElementById("app"));
+  props.fs.getFgbs().then(setList);
+
+  return (
+    <div>
+      <h1>Fgb Hub</h1>
+      <h3>View FGBs</h3>
+      <ul>{list.map((u) => urlItem(u))}</ul>
+    </div>
+  );
+};
+
+const fb = firebase.init();
+ReactDOM.render(<Index fs={fb} />, document.getElementById("app"));

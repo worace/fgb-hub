@@ -18,6 +18,7 @@ import {
   fromFeature,
   IGeoJsonFeature,
 } from "flatgeobuf/lib/mjs/geojson/feature";
+import firebase from "./firebase";
 
 function fmtBounds(bounds: mapboxgl.LngLatBounds): string {
   console.log("fmt bounds", JSON.stringify(bounds));
@@ -158,6 +159,8 @@ if (url == null) {
 const nullBB: Rect = { minX: 0, minY: 0, maxX: 0, maxY: 0 };
 
 async function init(url: string) {
+  const fb = firebase.init();
+  console.log(fb);
   console.log("init", url);
   const reader = await HttpReader.open(url);
   console.log("reader", reader);
