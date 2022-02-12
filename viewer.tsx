@@ -19,6 +19,7 @@ import {
   IGeoJsonFeature,
 } from "flatgeobuf/lib/mjs/geojson/feature";
 import firebase from "./firebase";
+import { App } from "./AppContext";
 
 function fmtBounds(bounds: mapboxgl.LngLatBounds): string {
   console.log("fmt bounds", JSON.stringify(bounds));
@@ -165,11 +166,8 @@ async function init(url: string) {
   const reader = await HttpReader.open(url);
   console.log("reader", reader);
   console.log("header:", reader.header);
-  ReactDOM.render(
-    <Viewer url={url} header={reader.header} client={reader} />,
-    document.getElementById("app")
-  );
+
+  App.render(<Viewer url={url} header={reader.header} client={reader} />);
 }
 
-console.log("init...");
 init(url);
