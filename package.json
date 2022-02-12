@@ -1,7 +1,7 @@
 {
     "scripts": {
-        "build": "esbuild index.tsx viewer.tsx --bundle --outdir=build",
-        "watch": "esbuild index.tsx viewer.tsx --watch --bundle --outdir=build"
+        "build": "esbuild ./src/ts/index.tsx ./src/ts/viewer.tsx --bundle --outdir=build",
+        "watch": "esbuild ./src/ts/index.tsx ./src/ts/viewer.tsx --watch --bundle --outdir=build"
     },
     "devDependencies": {
         "esbuild": "^0.14.21"
