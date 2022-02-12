@@ -4,7 +4,8 @@
         "watch": "esbuild ./src/ts/index.tsx ./src/ts/viewer.tsx --watch --bundle --outdir=build"
     },
     "devDependencies": {
-        "esbuild": "^0.14.21"
+        "esbuild": "^0.14.21",
+        "tailwindcss": "^3.0.22"
     },
     "dependencies": {
         "@types/mapbox-gl": "^2.6.1",
