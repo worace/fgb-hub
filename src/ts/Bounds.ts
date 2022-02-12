@@ -38,4 +38,15 @@ export default {
     };
   },
   emptyBounds: new LngLatBounds([0, 0, 0, 0]),
+  fmtBounds(bounds: mapboxgl.LngLatBounds): string {
+    console.log("fmt bounds", JSON.stringify(bounds));
+    return [
+      bounds.getWest(),
+      bounds.getSouth(),
+      bounds.getEast(),
+      bounds.getNorth(),
+    ]
+      .map((num) => num.toFixed(6))
+      .join(",");
+  },
 };

@@ -21,18 +21,6 @@ import {
 import firebase from "./firebase";
 import { App } from "./AppContext";
 
-function fmtBounds(bounds: mapboxgl.LngLatBounds): string {
-  console.log("fmt bounds", JSON.stringify(bounds));
-  return [
-    bounds.getWest(),
-    bounds.getSouth(),
-    bounds.getEast(),
-    bounds.getNorth(),
-  ]
-    .map((num) => num.toFixed(6))
-    .join(",");
-}
-
 const mbToken =
   "pk.eyJ1Ijoid29yYWNlIiwiYSI6ImNremdhdjh0MDNwbngyd25mbTVwYmxpbGwifQ.uUKEsBJuZ_mMZCxbqkkkkA";
 
@@ -44,8 +32,15 @@ function indexSize(client: HttpReader): number {
 
 const BoundsDisplay = (bounds: LngLatBounds) => (
   <div>
-    <p>Bounds: {fmtBounds(bounds)}</p>
+    <p>Bounds: {Bounds.fmtBounds(bounds)}</p>
     <pre>{Bounds.toWkt(bounds)}</pre>
+  </div>
+);
+
+const row = (label: string, value: string | number) => (
+  <div className="bg-gray-50 px-4 py-3">
+    <dt className="text-sm font-medium text-gray-500">{label}</dt>
+    <dd className="mt-1 text-sm text-gray-900">{value}</dd>
   </div>
 );
 
@@ -129,23 +124,34 @@ const Viewer = (props: {
   };
 
   return (
-    <div>
-      <h1>View Url</h1>
-      <h2>{props.url}</h2>
-      <p>Num Features: {props.header.featuresCount}</p>
-      <p>Currently loaded features: {loadedFeatures}</p>
-      <p>Geometry Type: {geomType(props.header.geometryType)}</p>
-      <p>Header Size: {props.client.lengthBeforeTree()} bytes</p>
-      <p>Index Size: {humanFileSize(indexSize(props.client))}</p>
-      {BoundsDisplay(bounds)}
-      <p>
-        <button disabled={isLoading} onClick={fetchData}>
-          Load Data
-        </button>
-      </p>
+    <div className="flex">
+      <div className="w-1/3 p-4">
+        <h2 className="font-bold text-xl text-gray-900">Viewing FGB File</h2>
+        <p className="text-sm mt-1 text-gray-500">{props.url}</p>
+
+        <div className="border-t border-gray-200 mt-4">
+          <dl>
+            {row("Num Features", props.header.featuresCount)}
+            {row("Visible Features", loadedFeatures)}
+            {row("Geometry Type", geomType(props.header.geometryType))}
+            {row(
+              "Header Size",
+              props.client.lengthBeforeTree().toString() + " bytes"
+            )}
+            {row("Index Size", humanFileSize(indexSize(props.client)))}
+            {row("Bounds", Bounds.fmtBounds(bounds))}
+          </dl>
+          <p>
+            <button disabled={isLoading} onClick={fetchData}>
+              Load Data
+            </button>
+          </p>
+        </div>
+      </div>
       <div
+        className="w-2/3"
         id="map"
-        style={{ height: "600px", width: "800px" }}
+        style={{ height: "600px" }}
         ref={mapEl}
       ></div>
     </div>
@@ -171,3 +177,66 @@ async function init(url: string) {
 }
 
 init(url);
+
+// <!-- This example requires Tailwind CSS v2.0+ -->
+// <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+//   <div class="px-4 py-5 sm:px-6">
+//     <h3 class="text-lg leading-6 font-medium">Applicant Information</h3>
+//     <p class="mt-1 max-w-2xl text-sm text-gray-500">Personal details and application.</p>
+//   </div>
+//   <div class="border-t border-gray-200">
+//     <dl>
+//       <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+//         <dt class="text-sm font-medium text-gray-500">Full name</dt>
+//         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">Margot Foster</dd>
+//       </div>
+//       <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+//         <dt class="text-sm font-medium text-gray-500">Application for</dt>
+//         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">Backend Developer</dd>
+//       </div>
+//       <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+//         <dt class="text-sm font-medium text-gray-500">Email address</dt>
+//         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">margotfoster@example.com</dd>
+//       </div>
+//       <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+//         <dt class="text-sm font-medium text-gray-500">Salary expectation</dt>
+//         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">$120,000</dd>
+//       </div>
+//       <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+//         <dt class="text-sm font-medium text-gray-500">About</dt>
+//         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.</dd>
+//       </div>
+//       <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+//         <dt class="text-sm font-medium text-gray-500">Attachments</dt>
+//         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+//           <ul role="list" class="border border-gray-200 rounded-md divide-y divide-gray-200">
+//             <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+//               <div class="w-0 flex-1 flex items-center">
+//                 <!-- Heroicon name: solid/paper-clip -->
+//                 <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+//                   <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+//                 </svg>
+//                 <span class="ml-2 flex-1 w-0 truncate"> resume_back_end_developer.pdf </span>
+//               </div>
+//               <div class="ml-4 flex-shrink-0">
+//                 <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500"> Download </a>
+//               </div>
+//             </li>
+//             <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+//               <div class="w-0 flex-1 flex items-center">
+//                 <!-- Heroicon name: solid/paper-clip -->
+//                 <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+//                   <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+//                 </svg>
+//                 <span class="ml-2 flex-1 w-0 truncate"> coverletter_back_end_developer.pdf </span>
+//               </div>
+//               <div class="ml-4 flex-shrink-0">
+//                 <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500"> Download </a>
+//               </div>
+//             </li>
+//           </ul>
+//         </dd>
+//       </div>
+//     </dl>
+//   </div>
+// </div>

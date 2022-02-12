@@ -32,7 +32,7 @@ export class App extends React.Component<{}, { currentUser: User | null }> {
     return (
       <AppContext.Provider value={this.state}>
         <Nav />
-        <div>{this.props.children}</div>
+        <div className="">{this.props.children}</div>
       </AppContext.Provider>
     );
   }

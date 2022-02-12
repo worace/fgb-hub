@@ -14,7 +14,7 @@ function viewerLink(url: string): string {
 }
 
 const urlItem = (fgb: Fgb) => (
-  <li key={fgb.url}>
+  <li key={fgb.url} className="">
     <a href={viewerLink(fgb.url)}>{fgb.url}</a>
   </li>
 );
@@ -32,9 +32,8 @@ const Index = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Fgb Hub</h1>
-      <h3>View FGBs</h3>
+    <div className="container mx-auto px-4">
+      <h2 className="font-bold text-2xl">View FGBs</h2>
       <ul>{list.map((u) => urlItem(u))}</ul>
     </div>
   );
