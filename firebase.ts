@@ -1,12 +1,12 @@
 // Import the functions you need from the SDKs you need
-import { FirebaseApp, FirebaseError, initializeApp } from "firebase/app";
+import { FirebaseApp, initializeApp } from "firebase/app";
+import { Auth, getAuth, User } from "firebase/auth";
 import {
-  getFirestore,
   collection,
-  getDocs,
   Firestore,
+  getDocs,
+  getFirestore,
 } from "firebase/firestore/lite";
-
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -17,9 +17,11 @@ export interface Fgb {
 export class FireStore {
   public app: FirebaseApp;
   public db: Firestore;
-  constructor(app: FirebaseApp, db: Firestore) {
+  public auth: Auth;
+  constructor(app: FirebaseApp, db: Firestore, auth: Auth) {
     this.app = app;
     this.db = db;
+    this.auth = auth;
   }
 
   async getFgbs(): Promise<Fgb[]> {
@@ -28,6 +30,11 @@ export class FireStore {
     let docs = [];
     snapshot.docs.forEach((d) => docs.push(d.data() as Fgb));
     return docs;
+  }
+
+  currentUser(): User | null {
+    const auth = getAuth();
+    return auth.currentUser;
   }
 }
 
@@ -43,6 +50,7 @@ export default {
   init(): FireStore {
     const app = initializeApp(this.firebaseConfig);
     const db = getFirestore(app);
-    return new FireStore(app, db);
+    const auth = getAuth();
+    return new FireStore(app, db, auth);
   },
 };

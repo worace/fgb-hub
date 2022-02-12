@@ -1,10 +1,7 @@
 import * as React from "react";
-import ReactDOM, { flushSync } from "react-dom";
-import firebase, { Fgb, FireStore } from "./firebase";
+import { App, AppContext, Ctx } from "./AppContext";
+import { Fgb } from "./firebase";
 
-/* const STORAGE_KEY = 'fgbhub_data';
- * const data = JSON.parse(ls.getItem(STORAGE_KEY)) || [];
- *  */
 const urls = [
   "http://localhost:8000/data/point.fgb",
   "http://localhost:8001/australia.fgb",
@@ -22,10 +19,17 @@ const urlItem = (fgb: Fgb) => (
   </li>
 );
 
-const Index = (props: { fs: FireStore }) => {
+async function dummyGetFgbs(): Promise<Fgb[]> {
+  console.log("getfgbs");
+  return Promise.resolve([{ url: "pizza" }]);
+}
+const Index = () => {
   const [list, setList] = React.useState<Fgb[]>([]);
+  const ctx = React.useContext<Ctx>(AppContext);
 
-  props.fs.getFgbs().then(setList);
+  React.useEffect(() => {
+    ctx.fs.getFgbs().then(setList);
+  }, []);
 
   return (
     <div>
@@ -36,5 +40,4 @@ const Index = (props: { fs: FireStore }) => {
   );
 };
 
-const fb = firebase.init();
-ReactDOM.render(<Index fs={fb} />, document.getElementById("app"));
+App.render(<Index />);

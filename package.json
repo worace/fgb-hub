@@ -10,6 +10,7 @@
         "@types/mapbox-gl": "^2.6.1",
         "@types/react": "^17.0.39",
         "firebase": "^9.6.6",
+        "firebaseui": "^6.0.0",
         "flatgeobuf": "^3.21.3",
         "mapbox-gl": "^2.7.0",
         "react": "^17.0.2",
