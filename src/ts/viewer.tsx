@@ -40,7 +40,7 @@ const BoundsDisplay = (bounds: LngLatBounds) => (
 const row = (label: string, value: string | number) => (
   <div className="bg-gray-50 px-4 py-3">
     <dt className="text-sm font-medium text-gray-500">{label}</dt>
-    <dd className="mt-1 text-sm text-gray-900">{value}</dd>
+    <dd className="mt-1 text-sm text-gray-900 overflow-x-clip">{value}</dd>
   </div>
 );
 
@@ -100,6 +100,7 @@ const Viewer = (props: {
   }, []);
 
   const fetchData = async () => {
+    const limit = 2000;
     updateIsLoading(true);
     console.log("fetch data", bounds, Bounds.toRect(bounds));
     const features: IGeoJsonFeature[] = [];
@@ -107,7 +108,11 @@ const Viewer = (props: {
     for await (const feature of props.client.selectBbox(
       Bounds.toRect(bounds)
     )) {
-      features.push(fromFeature(feature, props.client.header));
+      if (features.length < limit) {
+        features.push(fromFeature(feature, props.client.header));
+      } else {
+        break;
+      }
     }
     const fc = {
       type: "FeatureCollection",
@@ -141,8 +146,8 @@ const Viewer = (props: {
             {row("Index Size", humanFileSize(indexSize(props.client)))}
             {row("Bounds", Bounds.fmtBounds(bounds))}
           </dl>
-          <p>
-            <button disabled={isLoading} onClick={fetchData}>
+          <p className="flex flex-row-reverse mt-2">
+            <button className="button" disabled={isLoading} onClick={fetchData}>
               Load Data
             </button>
           </p>

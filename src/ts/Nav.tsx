@@ -33,7 +33,9 @@ export const Nav = () => {
 
   return (
     <div className="vw-100 flex bg-gray-800 p-2 text-gray-300">
-      <p className="text-xl font-bold flex-grow">FgbHub</p>
+      <p className="text-xl font-bold flex-grow">
+        <a href="/">FgbHub</a>
+      </p>
       {loginLink(currentUser)}
     </div>
   );
