@@ -11,7 +11,7 @@ function loginLink(currentUser: User | null) {
       <div className="flex">
         <p className="mr-2">{username}</p>
         <img
-          className="w-8 rounded-full border-white border-2"
+          className="w-8 h-8 rounded-full border-white border-2"
           src={currentUser.photoURL}
         />
       </div>

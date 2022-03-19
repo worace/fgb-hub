@@ -83,6 +83,17 @@ const Viewer = (props: {
           "fill-opacity": 0.5,
         },
       });
+      map.addLayer({
+        id: "features-circle",
+        type: "circle",
+        source: "features",
+        paint: {
+          "circle-color": "#4264fb",
+          "circle-radius": 8,
+          "circle-stroke-width": 2,
+          "circle-stroke-color": "#ffffff",
+        },
+      });
 
       updateMap(map);
       updateBounds(map.getBounds());
