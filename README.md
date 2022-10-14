@@ -2,5 +2,5 @@
 
 ```
 npm run watch
-npx tailwindcss -i ./src/app.css -o ./build/app.css --watch
+npx tailwindcss -i ./src/app.css -o ./site/build/app.css --watch
 ```
